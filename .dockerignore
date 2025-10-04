@@ -1,0 +1,42 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+README.md
+HELP.md
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# Maven
+target/
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+temp-*
+*.tmp
+*.temp
+
+# Test files
+src/test/
+
+# Application specific
+application-local.properties
+application-dev.properties
+application-prod.properties
