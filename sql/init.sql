@@ -1,12 +1,54 @@
--- MoneyMentor Database Initialization Script
--- This script sets up the initial database structure
+-- Create database if not exists
+CREATE DATABASE IF NOT EXISTS moneymentor;
+USE moneymentor;
 
--- Create database if not exists (handled by Docker)
--- USE moneymentor;
-
--- Set charset and collation
-SET NAMES utf8mb4;
-SET CHARACTER SET utf8mb4;
-
--- Enable foreign key checks
-SET FOREIGN_KEY_CHECKS = 1;
+-- Create users table
+CREATE TABLE IF NOT EXISTS users (
+    id BINARY(16) PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    phone VARCHAR(20),
+    mobile VARCHAR(20),
+    email_verified_at TIMESTAMP NULL,
+    mobile_verified_at TIMESTAMP NULL,
+    profile_image_url VARCHAR(500),
+    date_of_birth TIMESTAMP NULL,
+    gender ENUM('MALE', 'FEMALE', 'OTHER', 'PREFER_NOT_TO_SAY') NULL,
+    national_id VARCHAR(50),
+    address TEXT,
+    city VARCHAR(100),
+    state VARCHAR(100),
+    country VARCHAR(100),
+    postal_code VARCHAR(20),
+    language VARCHAR(10) DEFAULT 'en',
+    timezone VARCHAR(50) DEFAULT 'UTC',
+    currency VARCHAR(3) DEFAULT 'USD',
+    status ENUM('ACTIVE', 'INACTIVE', 'SUSPENDED', 'PENDING_VERIFICATION', 'DELETED') DEFAULT 'PENDING_VERIFICATION',
+    role ENUM('SUPER_ADMIN', 'ADMIN', 'USER', 'GUEST', 'PREMIUM_USER', 'BUSINESS_USER') DEFAULT 'USER',
+    two_factor_enabled BOOLEAN DEFAULT FALSE,
+    two_factor_secret VARCHAR(255),
+    last_login_at TIMESTAMP NULL,
+    last_login_ip VARCHAR(45),
+    failed_login_attempts INT DEFAULT 0,
+    locked_until TIMESTAMP NULL,
+    password_changed_at TIMESTAMP NULL,
+    terms_accepted_at TIMESTAMP NULL,
+    privacy_policy_accepted_at TIMESTAMP NULL,
+    marketing_consent BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_by BINARY(16),
+    updated_by BINARY(16),
+    deleted_at TIMESTAMP NULL,
+    deleted_by BINARY(16),
+    
+    INDEX idx_email (email),
+    INDEX idx_username (username),
+    INDEX idx_mobile (mobile),
+    INDEX idx_status (status),
+    INDEX idx_created_at (created_at),
+    INDEX idx_email_verified (email_verified_at)
+);
