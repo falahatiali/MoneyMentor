@@ -58,4 +58,27 @@ class HealthController(
             "timestamp" to System.currentTimeMillis()
         )
     }
+
+    @GetMapping("/test-db")
+    fun testDatabase(): Map<String, Any> {
+        return try {
+            dataSource.connection.use { connection ->
+                val statement = connection.createStatement()
+                val resultSet = statement.executeQuery("SELECT COUNT(*) as count FROM users")
+                resultSet.next()
+                val count = resultSet.getInt("count")
+                mapOf(
+                    "status" to "SUCCESS",
+                    "user_count" to count,
+                    "message" to "Database test successful"
+                )
+            }
+        } catch (e: Exception) {
+            mapOf(
+                "status" to "ERROR",
+                "message" to "Database test failed: ${e.message}",
+                "error" to e.javaClass.simpleName
+            )
+        }
+    }
 }
